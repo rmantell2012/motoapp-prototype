@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTO — App Design Prototype</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: #E05A2B;
+  --dark: #1a1a1a;
+  --darker: #111;
+  --green: #22c55e;
+  --gray: #2a2a2a;
+  --light: #f5f3ef;
+  --muted: #888;
+  --border: rgba(255,255,255,0.08);
+}
+
+html { background: #0e0e0e; color: #fff; font-family: 'DM Sans', sans-serif; }
+
+body { max-width: 1400px; margin: 0 auto; padding: 60px 40px; }
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 80px;
+  padding-bottom: 32px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.logo { font-size: 48px; font-weight: 300; letter-spacing: -3px; color: #fff; }
+.logo span { color: var(--orange); }
+
+.header-meta { text-align: right; }
+.header-meta p { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; line-height: 1.8; }
+
+/* SECTION */
+.section { margin-bottom: 80px; }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--orange); }
+.section-title { font-size: 22px; font-weight: 400; color: #fff; letter-spacing: -0.5px; }
+.section-desc { font-size: 13px; color: var(--muted); margin-left: auto; max-width: 300px; text-align: right; line-height: 1.6; }
+
+/* PHONE GRID */
+.phone-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* PHONE FRAME */
+.phone {
+  width: 260px;
+  flex-shrink: 0;
+  background: #1a1a1a;
+  border-radius: 32px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.phone-label {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.status-bar { background: #111; color: #666; font-size: 10px; padding: 5px 14px; display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; }
+.nav-bar { background: #111; padding: 8px 14px 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+.nav-logo { color: var(--orange); font-size: 18px; font-weight: 500; letter-spacing: -1px; }
+.nav-title { color: #fff; font-size: 13px; font-weight: 400; }
+.nav-icon { color: #555; font-size: 16px; }
+
+.body { padding: 12px; }
+
+/* INPUT CARD */
+.input-card { background: #222; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.08); padding: 12px; margin-bottom: 10px; }
+.input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.input-row:last-of-type { margin-bottom: 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-green { background: var(--green); }
+.dot-orange { background: var(--orange); }
+.input-text { font-size: 13px; color: #fff; }
+.input-placeholder { font-size: 13px; color: #444; }
+.dotted-line { width: 1px; height: 14px; background: rgba(255,255,255,0.1); margin-left: 3px; }
+
+.chip-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.06); }
+.chip { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 500; border: 0.5px solid rgba(255,255,255,0.1); color: #666; }
+.chip.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.btn { width: 100%; padding: 11px; background: var(--orange); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.btn-dark { background: #2a2a2a; color: #aaa; border: 0.5px solid rgba(255,255,255,0.08); }
+
+/* ROUTE CARD */
+.route-card { background: #222; border-radius: 10px; border: 0.5px solid rgba(255,255,255,0.08); padding: 10px 12px; margin-bottom: 8px; }
+.route-card.selected { border-color: var(--orange); }
+.route-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.route-name { font-size: 13px; font-weight: 500; color: #fff; }
+.badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; }
+.badge-epic { background: rgba(224,90,43,0.15); color: var(--orange); }
+.badge-scenic { background: rgba(34,197,94,0.12); color: #22c55e; }
+.badge-mod { background: rgba(59,130,246,0.12); color: #60a5fa; }
+.route-stats { display: flex; gap: 12px; }
+.stat-val { font-size: 12px; font-weight: 500; color: #fff; }
+.stat-key { font-size: 10px; color: #555; }
+.curve-bar { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.curve-track { flex: 1; height: 3px; background: #333; border-radius: 2px; overflow: hidden; }
+.curve-fill { height: 100%; border-radius: 2px; background: var(--orange); }
+.curve-score { font-size: 11px; font-weight: 500; color: var(--orange); }
+
+/* MAP */
+.map-strip { background: #1e2a1e; border-radius: 8px; margin-bottom: 10px; overflow: hidden; position: relative; }
+
+/* RIDER ROW */
+.rider-row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.rider-row:last-child { border-bottom: none; }
+.av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+.av1 { background: rgba(224,90,43,0.2); color: #E05A2B; }
+.av2 { background: rgba(34,197,94,0.15); color: #22c55e; }
+.av3 { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.av4 { background: rgba(250,204,21,0.15); color: #fbbf24; }
+.av5 { background: rgba(167,139,250,0.15); color: #a78bfa; }
+.rider-name { flex: 1; font-size: 12px; color: #fff; font-weight: 500; }
+.rider-sub { font-size: 10px; color: #555; }
+.status-pill { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; }
+.pill-green { background: rgba(34,197,94,0.12); color: #22c55e; }
+.pill-gray { background: rgba(255,255,255,0.06); color: #666; }
+.pill-orange { background: rgba(224,90,43,0.12); color: var(--orange); }
+
+/* EVENT CARD */
+.event-card { background: #222; border-radius: 10px; border: 0.5px solid rgba(255,255,255,0.08); padding: 10px 12px; margin-bottom: 8px; }
+.event-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 4px; }
+.event-meta { display: flex; gap: 10px; font-size: 10px; color: #555; margin-bottom: 8px; }
+.join-btn { padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 500; border: 0.5px solid var(--orange); color: var(--orange); background: none; font-family: 'DM Sans', sans-serif; }
+.join-btn.joined { background: var(--orange); color: #fff; }
+
+/* SESSION */
+.session-badge { display: flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 20px; background: rgba(34,197,94,0.1); border: 0.5px solid rgba(34,197,94,0.25); margin-bottom: 8px; width: fit-content; }
+.pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.session-text { font-size: 10px; color: var(--green); font-weight: 500; }
+
+/* RIDE STATS */
+.ride-stats { display: flex; border-top: 0.5px solid rgba(255,255,255,0.06); }
+.ride-stat { flex: 1; padding: 10px 6px; text-align: center; border-right: 0.5px solid rgba(255,255,255,0.06); }
+.ride-stat:last-child { border-right: none; }
+.ride-val { font-size: 16px; font-weight: 500; color: #fff; }
+.ride-val.accent { color: var(--orange); }
+.ride-key { font-size: 9px; color: #555; margin-top: 2px; }
+
+/* PROGRESS */
+.progress-wrap { padding: 10px 12px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 10px; color: #555; margin-bottom: 5px; }
+.progress-track { height: 4px; background: #333; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: var(--orange); }
+
+/* TOGGLE ROW */
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.toggle-row:last-child { border-bottom: none; }
+.toggle-label { font-size: 12px; color: #fff; }
+.toggle-sub-text { font-size: 10px; color: #555; margin-top: 1px; }
+.toggle { width: 32px; height: 18px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; padding: 0 3px; }
+.toggle.on { background: var(--orange); justify-content: flex-end; }
+.toggle.off { background: #333; justify-content: flex-start; }
+.toggle-thumb { width: 13px; height: 13px; border-radius: 50%; background: #fff; }
+
+/* NOTIF */
+.push-notif { background: #222; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; gap: 8px; }
+.push-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--orange); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+.push-title { font-size: 11px; font-weight: 500; color: #fff; }
+.push-body { font-size: 10px; color: #666; margin-top: 2px; line-height: 1.4; }
+
+/* ARRIVAL */
+.big-arrived { text-align: center; padding: 16px 12px 10px; }
+.check-circle { width: 48px; height: 48px; border-radius: 50%; background: rgba(34,197,94,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 22px; }
+.arrived-title { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 2px; }
+.arrived-sub { font-size: 11px; color: #555; }
+
+/* FLOW LABELS */
+.flow-label { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+
+/* DIVIDER */
+.screen-divider { height: 0.5px; background: rgba(255,255,255,0.05); margin: 6px 0; }
+
+/* FOOTER */
+.footer { margin-top: 80px; padding-top: 32px; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.footer-left { font-size: 11px; color: #444; font-family: 'DM Mono', monospace; line-height: 1.8; }
+.footer-right { font-size: 11px; color: #444; font-family: 'DM Mono', monospace; text-align: right; line-height: 1.8; }
+
+/* SECTION DIVIDER */
+.sec-divider { height: 0.5px; background: var(--border); margin: 0 0 80px; }
+
+/* LABEL WRAP */
+.labeled { display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">M<span>O</span>TO</div>
+  <div class="header-meta">
+    <p>App Design Prototype · 2026</p>
+    <p>Motorcycle route, crew & group ride platform</p>
+    <p style="color:#444">figma-ready · export via screenshot or Anima plugin</p>
+  </div>
+</div>
+
+<!-- SECTION 1: ROUTE FINDER -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <span class="section-title">Route finder</span>
+    <span class="section-desc">Enter two points, select your ride vibe, get curvy routes ranked by a curviness score</span>
+  </div>
+  <div class="phone-grid">
+
+    <div class="labeled">
+      <div class="phone-label">Search</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-logo">MOTO</span><span class="nav-title">Find a route</span><span class="nav-icon">🔔</span></div>
+        <div class="body">
+          <div class="input-card">
+            <div class="input-row"><div class="dot dot-green"></div><span class="input-text">Santa Monica, CA</span></div>
+            <div class="input-row"><div class="dotted-line"></div></div>
+            <div class="input-row"><div class="dot dot-orange"></div><span class="input-text">Malibu, CA</span></div>
+            <div class="chip-row">
+              <span class="chip active">Max curves</span>
+              <span class="chip">Scenic</span>
+              <span class="chip">No highways</span>
+              <span class="chip">Backroads</span>
+            </div>
+          </div>
+          <button class="btn">Find routes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">Results</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-logo">MOTO</span><span class="nav-title">Find a route</span><span class="nav-icon">🔔</span></div>
+        <div class="body">
+          <div class="map-strip">
+            <svg width="236" height="90" viewBox="0 0 236 90" xmlns="http://www.w3.org/2000/svg">
+              <rect width="236" height="90" fill="#1e2a1e"/>
+              <path d="M 10 80 Q 50 60 90 45 Q 130 30 170 20 Q 200 14 226 10" stroke="#2a3a2a" stroke-width="10" fill="none" stroke-linecap="round"/>
+              <path d="M 10 80 Q 50 60 90 45 Q 130 30 170 20 Q 200 14 226 10" stroke="#E05A2B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <circle cx="10" cy="80" r="5" fill="#22c55e"/>
+              <circle cx="226" cy="10" r="5" fill="#E05A2B"/>
+            </svg>
+          </div>
+          <div class="route-card selected">
+            <div class="route-header"><span class="route-name">Mulholland Loop</span><span class="badge badge-epic">Epic</span></div>
+            <div class="route-stats"><div><div class="stat-val">42 mi</div><div class="stat-key">distance</div></div><div><div class="stat-val">1h 20m</div><div class="stat-key">time</div></div><div><div class="stat-val">147</div><div class="stat-key">curves</div></div></div>
+            <div class="curve-bar"><span style="font-size:9px;color:#555;width:44px">Curviness</span><div class="curve-track"><div class="curve-fill" style="width:92%"></div></div><span class="curve-score">9.2</span></div>
+          </div>
+          <div class="route-card">
+            <div class="route-header"><span class="route-name">PCH Coastal Run</span><span class="badge badge-scenic">Scenic</span></div>
+            <div class="route-stats"><div><div class="stat-val">28 mi</div><div class="stat-key">distance</div></div><div><div class="stat-val">55m</div><div class="stat-key">time</div></div><div><div class="stat-val">34</div><div class="stat-key">curves</div></div></div>
+            <div class="curve-bar"><span style="font-size:9px;color:#555;width:44px">Curviness</span><div class="curve-track"><div class="curve-fill" style="width:38%;background:#22c55e"></div></div><span class="curve-score" style="color:#22c55e">3.8</span></div>
+          </div>
+          <div class="route-card">
+            <div class="route-header"><span class="route-name">Kanan Dume Escape</span><span class="badge badge-mod">Moderate</span></div>
+            <div class="route-stats"><div><div class="stat-val">35 mi</div><div class="stat-key">distance</div></div><div><div class="stat-val">1h 5m</div><div class="stat-key">time</div></div><div><div class="stat-val">89</div><div class="stat-key">curves</div></div></div>
+            <div class="curve-bar"><span style="font-size:9px;color:#555;width:44px">Curviness</span><div class="curve-track"><div class="curve-fill" style="width:68%;background:#fbbf24"></div></div><span class="curve-score" style="color:#fbbf24">6.8</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- SECTION 2: LIVE MAP + CREW -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <span class="section-title">Live map & crew</span>
+    <span class="section-desc">Session-based location sharing — live during a ride, dark when it ends. Ghost mode available mid-ride.</span>
+  </div>
+  <div class="phone-grid">
+
+    <div class="labeled">
+      <div class="phone-label">Active ride session</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span style="font-size:10px;color:#E05A2B">← Back</span><span class="nav-title">Mulholland Loop · 42 mi</span><span></span></div>
+        <div class="map-strip">
+          <svg width="260" height="160" viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="160" fill="#1e2a1e"/>
+            <path d="M 20 150 Q 50 120 90 95 Q 130 70 160 50 Q 200 28 240 10" stroke="#2a3a2a" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <path d="M 20 150 Q 50 120 90 95 Q 130 70 160 50 Q 200 28 240 10" stroke="#E05A2B" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 20 150 Q 50 120 85 100" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="85" cy="100" r="12" fill="rgba(224,90,43,0.2)"/>
+            <circle cx="85" cy="100" r="7" fill="#E05A2B"/>
+            <circle cx="85" cy="100" r="3" fill="#fff"/>
+            <circle cx="140" cy="62" r="10" fill="rgba(34,197,94,0.2)"/>
+            <circle cx="140" cy="62" r="6" fill="#22c55e"/>
+            <circle cx="140" cy="62" r="2.5" fill="#fff"/>
+            <circle cx="155" cy="120" r="10" fill="rgba(148,163,184,0.2)"/>
+            <circle cx="155" cy="120" r="6" fill="#94a3b8"/>
+            <circle cx="155" cy="120" r="2.5" fill="#fff"/>
+            <text x="100" y="93" fill="#fff" font-size="8" font-family="sans-serif" font-weight="500">You</text>
+            <text x="152" y="56" fill="#fff" font-size="8" font-family="sans-serif" font-weight="500">Jake</text>
+            <text x="168" y="114" fill="#ccc" font-size="8" font-family="sans-serif">Danny</text>
+            <circle cx="20" cy="150" r="5" fill="#22c55e"/>
+            <circle cx="240" cy="10" r="5" fill="#E05A2B"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ride-stats">
+            <div class="ride-stat"><div class="ride-val">34</div><div class="ride-key">mph</div></div>
+            <div class="ride-stat"><div class="ride-val accent">16.1</div><div class="ride-key">miles done</div></div>
+            <div class="ride-stat"><div class="ride-val">25.9</div><div class="ride-key">remaining</div></div>
+            <div class="ride-stat"><div class="ride-val">48m</div><div class="ride-key">est. left</div></div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-label"><span>Santa Monica</span><span>38%</span><span>Malibu</span></div>
+            <div class="progress-track"><div class="progress-fill" style="width:38%"></div></div>
+          </div>
+          <div style="display:flex;gap:6px;padding:0 12px 12px;">
+            <button class="btn btn-dark" style="font-size:11px;padding:8px">👁 Visible</button>
+            <button class="btn btn-dark" style="font-size:11px;padding:8px">Share</button>
+            <button class="btn" style="font-size:11px;padding:8px;">End ride</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">Crew tracker</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-logo">MOTO</span><span class="nav-title">My crew</span><span></span></div>
+        <div class="body">
+          <div style="font-size:10px;font-weight:500;color:#555;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Riding now</div>
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);margin-bottom:10px;overflow:hidden;">
+            <div class="rider-row"><div class="av av1">JR</div><div><div class="rider-name">Jake R.</div><div class="rider-sub">Mulholland Dr · Triumph Tiger</div></div><span class="status-pill pill-green">●</span></div>
+            <div class="rider-row"><div class="av av2">MK</div><div><div class="rider-name">Maya K.</div><div class="rider-sub">PCH near Malibu · Ducati</div></div><span class="status-pill pill-green">●</span></div>
+            <div class="rider-row"><div class="av av3">DS</div><div><div class="rider-name">Danny S.</div><div class="rider-sub">Parked · The Country Mart</div></div><span class="status-pill pill-gray">●</span></div>
+          </div>
+          <div style="font-size:10px;font-weight:500;color:#555;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;">Your crew</div>
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);overflow:hidden;">
+            <div class="rider-row"><div class="av av4">TL</div><div><div class="rider-name">Tony L.</div><div class="rider-sub">Last seen 2h ago</div></div><span class="status-pill pill-gray">●</span></div>
+            <div class="rider-row"><div class="av av5">CR</div><div><div class="rider-name">Carlos R.</div><div class="rider-sub">Last seen yesterday</div></div><span class="status-pill pill-gray">●</span></div>
+          </div>
+          <button class="btn" style="margin-top:10px;font-size:12px;">Share my location</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- SECTION 3: GROUP RIDES -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="section-title">Group rides</span>
+    <span class="section-desc">Organizer creates a ride with settings, attendees RSVP, chat, and get live crew tracking during the ride</span>
+  </div>
+  <div class="phone-grid">
+
+    <div class="labeled">
+      <div class="phone-label">Organizer — create ride</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span style="font-size:10px;color:#555">✕ Cancel</span><span class="nav-title">New group ride</span><span style="font-size:10px;color:#E05A2B">Post</span></div>
+        <div class="body">
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);margin-bottom:10px;overflow:hidden;">
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:14px;margin-right:6px;">✏️</span><div><div style="font-size:10px;color:#555;">Ride name</div><div style="font-size:12px;color:#fff;font-weight:500;">Sunday Twisties Run</div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:14px;margin-right:6px;">📅</span><div><div style="font-size:10px;color:#555;">Date & time</div><div style="font-size:12px;color:#fff;font-weight:500;">Sun, May 11 · 8:00 AM</div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:14px;margin-right:6px;">📍</span><div><div style="font-size:10px;color:#555;">Meet point</div><div style="font-size:12px;color:#fff;font-weight:500;">Starbucks, Calabasas</div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:14px;margin-right:6px;">🛣</span><div><div style="font-size:10px;color:#555;">Route</div><div style="font-size:12px;color:#fff;font-weight:500;">Mulholland Loop · 42 mi</div></div></div>
+          </div>
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);margin-bottom:10px;overflow:hidden;">
+            <div class="toggle-row"><div><div class="toggle-label">Approval required</div><div class="toggle-sub-text">You approve each request</div></div><div class="toggle on"><div class="toggle-thumb"></div></div></div>
+            <div class="toggle-row"><div><div class="toggle-label">Live locations on</div><div class="toggle-sub-text">Crew visible during ride</div></div><div class="toggle on"><div class="toggle-thumb"></div></div></div>
+            <div class="toggle-row"><div><div class="toggle-label">Open to public</div><div class="toggle-sub-text">Anyone can discover & join</div></div><div class="toggle off"><div class="toggle-thumb"></div></div></div>
+          </div>
+          <button class="btn" style="font-size:12px;">Post ride</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">Attendee — event page</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div style="background:#111;padding:12px 14px 10px;">
+          <div style="font-size:9px;color:#E05A2B;font-weight:500;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:4px;">Group ride</div>
+          <div style="font-size:16px;font-weight:500;color:#fff;margin-bottom:2px;">Sunday Twisties Run</div>
+          <div style="font-size:11px;color:#555;margin-bottom:8px;">Hosted by Jake R.</div>
+          <div style="display:flex;gap:10px;">
+            <span style="font-size:10px;color:#777;">📅 May 11 · 8AM</span>
+            <span style="font-size:10px;color:#777;">👥 7 going</span>
+            <span style="font-size:10px;color:#777;">🛣 42 mi</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;padding:8px 12px;border-bottom:0.5px solid rgba(255,255,255,0.05);">
+          <button class="btn" style="font-size:11px;padding:7px;">✓ Going</button>
+          <button class="btn btn-dark" style="font-size:11px;padding:7px;">Maybe</button>
+          <button class="btn btn-dark" style="font-size:11px;padding:7px;">Can't go</button>
+        </div>
+        <div style="display:flex;border-bottom:0.5px solid rgba(255,255,255,0.05);">
+          <div style="flex:1;padding:8px;text-align:center;font-size:11px;color:#E05A2B;border-bottom:2px solid #E05A2B;">Details</div>
+          <div style="flex:1;padding:8px;text-align:center;font-size:11px;color:#555;">Riders (7)</div>
+          <div style="flex:1;padding:8px;text-align:center;font-size:11px;color:#555;">Chat</div>
+        </div>
+        <div class="body" style="padding-top:10px;">
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);overflow:hidden;">
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:12px;margin-right:6px;color:#555">📍</span><div><div style="font-size:12px;color:#fff;">Starbucks, Calabasas</div><div style="font-size:10px;color:#555;">Meet point</div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:12px;margin-right:6px;color:#555">🛣</span><div><div style="font-size:12px;color:#fff;">Mulholland Loop · 9.2 curviness</div><div style="font-size:10px;color:#555;">42 mi · 147 curves</div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:12px;margin-right:6px;color:#555">📍</span><div><div style="font-size:12px;color:#fff;">Live locations on during ride</div><div style="font-size:10px;color:#555;">Crew visible to each other only</div></div></div>
+          </div>
+          <button class="btn" style="margin-top:8px;font-size:12px;">Get directions to meet point</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">Events feed</div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-logo">MOTO</span><span class="nav-title">Group rides</span><span style="font-size:10px;color:#E05A2B;">+ New</span></div>
+        <div class="body">
+          <div class="event-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><div class="event-name">Sunday Twisties Run</div><span style="font-size:9px;background:rgba(224,90,43,0.12);color:#E05A2B;padding:2px 7px;border-radius:20px;">This week</span></div>
+            <div class="event-meta"><span>📅 May 11 · 8AM</span><span>👥 7 going</span><span>🛣 42 mi</span></div>
+            <button class="join-btn joined">Going ✓</button>
+          </div>
+          <div class="event-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><div class="event-name">Angeles Crest Day Trip</div><span style="font-size:9px;background:rgba(255,255,255,0.05);color:#555;padding:2px 7px;border-radius:20px;">May 24</span></div>
+            <div class="event-meta"><span>📅 May 24 · 7:30AM</span><span>👥 12 going</span></div>
+            <button class="join-btn">Join ride</button>
+          </div>
+          <div class="event-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><div class="event-name">Newcomers Welcome Ride</div><span style="font-size:9px;background:rgba(255,255,255,0.05);color:#555;padding:2px 7px;border-radius:20px;">Jun 1</span></div>
+            <div class="event-meta"><span>📅 Jun 1 · 9AM</span><span>👥 4 going</span></div>
+            <button class="join-btn">Join ride</button>
+          </div>
+          <button class="btn" style="font-size:12px;margin-top:2px;">+ Create a ride</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- SECTION 4: ARRIVAL FLOW -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <span class="section-title">Arrival & ride start</span>
+    <span class="section-desc">App auto-detects arrival at the meet point, shows crew ETAs, lets organizer kick off the ride when ready</span>
+  </div>
+  <div class="phone-grid">
+
+    <div class="labeled">
+      <div class="phone-label">1 · En route to meet point</div>
+      <div class="phone">
+        <div class="status-bar"><span>7:44</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-title" style="text-align:left;">Sunday Twisties Run</span></div>
+        <div class="map-strip">
+          <svg width="260" height="70" viewBox="0 0 260 70" xmlns="http://www.w3.org/2000/svg">
+            <rect width="260" height="70" fill="#1e2a1e"/>
+            <path d="M 10 62 Q 70 50 130 35 Q 190 20 250 12" stroke="#2a3a2a" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M 10 62 Q 70 50 130 35 Q 190 20 250 12" stroke="#E05A2B" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="5 4"/>
+            <circle cx="10" cy="62" r="5" fill="#E05A2B"/><circle cx="10" cy="62" r="2.5" fill="#fff"/>
+            <circle cx="250" cy="12" r="5" fill="#22c55e"/><circle cx="250" cy="12" r="2.5" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="body">
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);text-align:center;padding:14px 10px;margin-bottom:10px;">
+            <div style="font-size:36px;font-weight:300;color:#fff;line-height:1;">14<span style="font-size:18px;color:#555"> min</span></div>
+            <div style="font-size:11px;color:#555;margin-top:3px;">to meet point · 6.2 mi</div>
+          </div>
+          <div style="font-size:10px;font-weight:500;color:#555;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px;">Crew status</div>
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);overflow:hidden;">
+            <div class="progress-wrap"><div class="progress-label"><span>Arrived</span><span style="font-weight:500;color:#fff;">2 of 7</span></div><div class="progress-track"><div class="progress-fill" style="width:28%"></div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row"><div class="av av1">JR</div><div class="rider-name">Jake R.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av2">MK</div><div class="rider-name">Maya K.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av3">DS</div><div class="rider-name">Danny S.</div><span class="status-pill pill-orange">12 min</span></div>
+            <div class="rider-row"><div class="av av5">CR</div><div class="rider-name">You</div><span class="status-pill pill-orange">14 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">2 · You arrived</div>
+      <div class="phone">
+        <div class="status-bar"><span>7:58</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-title" style="text-align:left;">Sunday Twisties Run</span></div>
+        <div style="background:#111;padding:10px 12px;">
+          <div class="push-notif" style="margin:0;">
+            <div class="push-icon" style="font-size:14px;">📍</div>
+            <div><div class="push-title">You've arrived at the meet point</div><div class="push-body">The crew has been notified. 3 of 7 riders here.</div></div>
+          </div>
+        </div>
+        <div class="body" style="padding-top:10px;">
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);text-align:center;padding:14px 10px;margin-bottom:10px;">
+            <div class="check-circle">✅</div>
+            <div class="arrived-title">You're at the spot</div>
+            <div class="arrived-sub">Starbucks, Calabasas · 7:58 AM</div>
+          </div>
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);overflow:hidden;">
+            <div class="progress-wrap"><div class="progress-label"><span>Riders arrived</span><span style="font-weight:500;color:#fff;">3 of 7</span></div><div class="progress-track"><div class="progress-fill" style="width:43%"></div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row"><div class="av av1">JR</div><div class="rider-name">Jake R.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av2">MK</div><div class="rider-name">Maya K.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av5">CR</div><div class="rider-name">You</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av3">DS</div><div class="rider-name">Danny S.</div><span class="status-pill pill-orange">4 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">3 · Organizer — ready to start</div>
+      <div class="phone">
+        <div class="status-bar"><span>8:04</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-title" style="text-align:left;">Sunday Twisties Run</span></div>
+        <div style="background:#111;padding:10px 12px;">
+          <div class="push-notif" style="margin:0;">
+            <div class="push-icon" style="font-size:14px;">👥</div>
+            <div><div class="push-title">5 of 7 riders have arrived</div><div class="push-body">Tony L. is 4 min out. Ready to start?</div></div>
+          </div>
+        </div>
+        <div class="body" style="padding-top:10px;">
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);overflow:hidden;margin-bottom:10px;">
+            <div class="progress-wrap"><div class="progress-label"><span>At meet point</span><span style="font-weight:500;color:#fff;">5 of 7</span></div><div class="progress-track"><div class="progress-fill" style="width:71%"></div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row"><div class="av av1">JR</div><div class="rider-name">Jake R. <span style="font-size:9px;color:#E05A2B;">you</span></div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av2">MK</div><div class="rider-name">Maya K.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av3">DS</div><div class="rider-name">Danny S.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av5">CR</div><div class="rider-name">Carlos R.</div><span class="status-pill pill-green">Arrived</span></div>
+            <div class="rider-row"><div class="av av4">TL</div><div class="rider-name">Tony L.</div><span class="status-pill pill-orange">4 min</span></div>
+          </div>
+          <button class="btn" style="font-size:12px;margin-bottom:6px;">Start ride now</button>
+          <button class="btn btn-dark" style="font-size:12px;">Wait for everyone</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="labeled">
+      <div class="phone-label">4 · Ride is live</div>
+      <div class="phone">
+        <div class="status-bar"><span>8:05</span><span>▲ ▲ ▲</span></div>
+        <div class="nav-bar"><span class="nav-title" style="text-align:left;">Sunday Twisties Run</span></div>
+        <div style="background:#111;padding:10px 12px;">
+          <div class="push-notif" style="margin:0;">
+            <div class="push-icon" style="background:#22c55e;font-size:14px;">🏁</div>
+            <div><div class="push-title">Jake started the ride</div><div class="push-body">Sunday Twisties Run is live. Tracking on.</div></div>
+          </div>
+        </div>
+        <div class="map-strip" style="margin:10px 12px 0;border-radius:8px;">
+          <svg width="236" height="110" viewBox="0 0 236 110" xmlns="http://www.w3.org/2000/svg">
+            <rect width="236" height="110" fill="#1e2a1e"/>
+            <path d="M 15 100 Q 50 80 90 60 Q 130 40 170 25 Q 205 13 222 8" stroke="#2a3a2a" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <path d="M 15 100 Q 50 80 90 60 Q 130 40 170 25 Q 205 13 222 8" stroke="#E05A2B" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="15" cy="100" r="10" fill="rgba(34,197,94,0.15)"/>
+            <circle cx="15" cy="100" r="6" fill="#22c55e"/>
+            <circle cx="15" cy="100" r="2.5" fill="#fff"/>
+            <circle cx="222" cy="8" r="5" fill="#E05A2B"/>
+          </svg>
+        </div>
+        <div class="body" style="padding-top:10px;">
+          <div style="background:#222;border-radius:10px;border:0.5px solid rgba(255,255,255,0.06);overflow:hidden;">
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:12px;color:#555;margin-right:6px;">🛣</span><div><div style="font-size:12px;color:#fff;">Mulholland Loop</div><div style="font-size:10px;color:#555;">42 mi · Crew tracking active</div></div></div>
+            <div class="screen-divider"></div>
+            <div class="rider-row" style="padding:8px 12px;"><span style="font-size:12px;color:#555;margin-right:6px;">👥</span><div><div style="font-size:12px;color:#fff;">5 riders on this ride</div><div style="font-size:10px;color:#555;">Tony L. joining in 4 min</div></div></div>
+            <div class="screen-divider"></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;"></div>
+              <div style="font-size:12px;color:#fff;">Live session active</div>
+            </div>
+          </div>
+          <button class="btn" style="margin-top:8px;font-size:12px;">View live map</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <p>MOTO — Motorcycle Route, Crew & Group Ride Platform</p>
+    <p>Prototype · All screens are design mockups</p>
+    <p>Route engine: Kurviger API · Maps: Mapbox</p>
+  </div>
+  <div class="footer-right">
+    <p>To import into Figma:</p>
+    <p>Option A — Screenshot each section, import as frames</p>
+    <p>Option B — Open in browser → Anima plugin → Import HTML</p>
+  </div>
+</div>
+
+</body>
+</html>
